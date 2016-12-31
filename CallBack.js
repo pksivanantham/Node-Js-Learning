@@ -14,7 +14,6 @@ if(count==c)
     e.emit('stop',count);
     clearInterval(runInterval);
 }
-
         },100)
     })
     return e;
