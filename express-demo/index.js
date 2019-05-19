@@ -24,15 +24,14 @@ app.get('/api/courses', (req, res) => {
 
 app.get('/api/courses/:id', (req, res) => {
     let course = courses.find((item) => item.id == req.params.id);
-    if (!course) res.status(404).send("Resource not found");
+    if (!course) return res.status(404).send("Resource not found");
     res.send(course);
 });
 
 app.post('/api/courses', (req, res) => {
 
     const { error } = validateSchema(req.body);
-    if (error)
-        res.status(500).send(error);
+    if (error) return res.status(404).send(error);
 
     const course = {
         id: courses.length + 1,
@@ -47,16 +46,27 @@ app.put('/api/courses/:id', (req, res) => {
 
     //404
     let course = courses.find((item) => item.id == req.params.id);
-    if (!course) res.status(404).send("Resource not found");
+    if (!course) return res.status(404).send("Resource not found");
 
     //400
     const { error } = validateSchema(req.body);
-    if (error)
-        res.status(400).send(error);
+    if (error) return res.status(400).send(error);
     course.name = req.body.name;
     res.send(course);
 });
 
+
+app.delete('/api/courses/:id', (req, res) => {
+
+    let course = courses.find((item) => item.id == req.params.id);
+    if (!course) return res.status(404).send("Resource not found");
+
+    const courseIndex = courses.indexOf(course);
+
+    courses.splice(courseIndex, 1);
+
+    return res.send(course);
+});
 function validateSchema(course) {
 
     const courseSchema = {
