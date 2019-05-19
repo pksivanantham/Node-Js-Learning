@@ -30,13 +30,10 @@ app.get('/api/courses/:id', (req, res) => {
 
 app.post('/api/courses', (req, res) => {
 
-    var courseSchema = {
+    const { error } = validateSchema(req.body);
+    if (error)
+        res.status(500).send(error);
 
-        name: Joi.string().required().min(3)
-    };
-    let result = Joi.validate(req.body, courseSchema);
-    if (result.error)
-        res.status(500).send(result.error);
     const course = {
         id: courses.length + 1,
         name: req.body.name
@@ -44,6 +41,30 @@ app.post('/api/courses', (req, res) => {
     courses.push(course);
     res.send(course);
 });
+
+
+app.put('/api/courses/:id', (req, res) => {
+
+    //404
+    let course = courses.find((item) => item.id == req.params.id);
+    if (!course) res.status(404).send("Resource not found");
+
+    //400
+    const { error } = validateSchema(req.body);
+    if (error)
+        res.status(400).send(error);
+    course.name = req.body.name;
+    res.send(course);
+});
+
+function validateSchema(course) {
+
+    const courseSchema = {
+
+        name: Joi.string().required().min(3)
+    };
+    return Joi.validate(course, courseSchema);
+}
 
 const port = process.env.TESTPORT || 5000; //POWERSHELL COMMAND :$env:<Variable_name> = value
 app.listen(port, () => { console.log(`Listening on port ${port}..`) });
