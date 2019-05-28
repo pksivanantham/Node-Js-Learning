@@ -1,7 +1,22 @@
+const morgan= require('morgan');
+const helmet = require('helmet');
 const express = require('express');
 const app = express();
 const Joi = require('@hapi/joi');
+const logger = require('./Logger');
+
 app.use(express.json());
+
+app.use(express.urlencoded({extended:true}));
+
+app.use(helmet());
+
+app.use(logger);//Custom middleware function
+
+console.log(`Current Env :${app.get('env')}`);
+
+if(app.get('env')==='development')
+    app.use(morgan('tiny'));
 
 const courses = [
     {
