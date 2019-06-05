@@ -4,7 +4,7 @@
         "host": "dev-db-server"
       },
       "credit": {
-        "initialDays": 30
+        "initialDays": 0
       }
     }
   }
