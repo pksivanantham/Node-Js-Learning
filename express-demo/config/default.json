@@ -1,7 +1,7 @@
 {
     "Customer": {
       "dbConfig": {
-        "host": "prod-db-server"
+        "host": "dev-db-server"
       },
       "credit": {
         "initialDays": 30
