@@ -1,44 +1,50 @@
 console.log('Before');
 
-getUser(1, getRepositoriesCB);
+getUser(1)
+.then((userData)=>getRepositories(userData.githubUsername))
+.then((repos)=> getCommits(repos[0]))
+.then((commits)=>console.log(commits))
+.catch((error)=>console.log(error.message));//If promises got rejected then catch will handle the errors        
 
 console.log('After');
 
-function getRepositoriesCB(userData) {
-    getRepositories(userData.githubUsername, getCommitsCB)
-}
-function getCommitsCB(repos) {
-    getCommits(repos[0], displayCommits)
-}
+function getUser(userId) {
 
-function displayCommits(commits) {
-    console.log(commits);
-}
+    return new Promise((resolve,reject)=>{
 
-function getUser(userId, callback) {
+        setTimeout(() => {
 
-    setTimeout(() => {
-
-        console.log('Reading a user from database..');
-        callback({ id: userId, githubUsername: 'pksivanantham' });
-
-    }, 2000);
-
-
+            console.log('Reading a user from database..');
+            resolve({ id: userId, githubUsername: 'pksivanantham' });
+    
+        }, 2000);
+    });
 }
 
-function getRepositories(username, callback) {
-    setTimeout(() => {
-        console.log(`Reading repo's from database..`);
-        callback(['repo1', 'repo2', 'repo3'])
+function getRepositories(username) {
 
-    }, 2000);
+    return new Promise((resolve,reject)=>{
+
+        setTimeout(() => {
+            console.log(`Reading repo's from database..`);
+            resolve(['repo1', 'repo2', 'repo3'])
+    
+        }, 2000);
+
+    });
+    
 }
 
 function getCommits(repo, callback) {
-    setTimeout(() => {
-        console.log(`Reading commit's from database..`);
-        callback(['commit1', 'commit2', 'commit3'])
 
-    }, 2000);
+    return new Promise((resolve,reject)=>{
+
+        setTimeout(() => {
+            console.log(`Reading commit's from database..`);
+            resolve(['commit1', 'commit2', 'commit3'])
+    
+        }, 2000);
+
+    });
+   
 }
