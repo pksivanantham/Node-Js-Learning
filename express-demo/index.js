@@ -27,7 +27,7 @@ if (app.get('env') === 'development')
 if(dbConfig.has('Customer.dbConfig.host'))    
 debug(`value from config json file : 
     HOST= ${dbConfig.get('Customer.dbConfig.host')} ; 
-    Password : ${ dbConfig.get('Customer.dbConfig.db-password')}`);
+    Password : ${ dbConfig.get('Customer.dbConfig.db-password')}`);//${env:db-password} =" 4321"
 
 //Views
 app.set('view engine','pug');
