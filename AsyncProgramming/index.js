@@ -6,7 +6,12 @@ getUser(1, (userData) => {
 
     getRepositories(userData.githubUsername, (repos) => {
 
-        console.log('Repos',repos);
+        console.log('Repos', repos);
+
+        getCommits(repo, (commits) => {
+
+            console.log('Commits', commits);
+        })
 
     })
 
