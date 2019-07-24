@@ -8,7 +8,7 @@ getUser(1)
 
 
 //Async Await
-async function displayCommits() {
+async function displayCommits() {//async await is syntatic sugar of promises
 
     try {
 
@@ -23,6 +23,9 @@ async function displayCommits() {
     }
     catch (err) {
         console.log(err);
+    }
+    finally {
+        console.log('finally')
     }
 
 }
@@ -65,7 +68,7 @@ function getCommits(repo, callback) {
         setTimeout(() => {
             console.log(`Reading commit's from database..`);
             resolve(['commit1', 'commit2', 'commit3'])
-          //reject(new Error('Ran into Error !!!!!!!!'));
+            //reject(new Error('Ran into Error !!!!!!!!'));
 
         }, 2000);
 
