@@ -38,7 +38,7 @@ function getCustomer(id) {
     setTimeout(() => {
       resolve({
         id: 1,
-        name: 'Mosh Hamedani',
+        name: 'Sivanantham Padikkasu',
         isGold: true,
         email: 'email'
       });
