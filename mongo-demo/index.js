@@ -18,9 +18,9 @@ const Course = mongoose.model('Course', courseSchema);
 async function createCourse() {
     //creating new record(document)
     let course = new Course({
-        name: 'Node js ',
+        name: 'React js ',
         author: 'Siva',
-        tags: ['Node', 'v8'],
+        tags: ['ReactJS', 'VirtualDOM'],
         isPublished: true
     });
 
@@ -28,4 +28,22 @@ async function createCourse() {
     console.log(result);
 }
 
-createCourse();
+//createCourse();
+
+async function getCourses() {
+
+    //Comparision operators
+    //$lt,$gt,$lte,$gte,$in,$nin,$eq,$neq
+
+    let courses = await Course
+    .find({isPublished:true}) 
+    //.find({price:{$gt:10,$lt:40}})
+    //.find({price:{$in:[10,20,30]}})
+    .sort({name:-1})//1 asc -1 desc
+    .select({name:1,author:1});//1 denoting true here
+    
+    console.log(courses);
+
+}
+
+getCourses();
