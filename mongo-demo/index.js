@@ -35,13 +35,24 @@ async function getCourses() {
     //Comparision operators
     //$lt,$gt,$lte,$gte,$in,$nin,$eq,$neq
 
+    //Arithmetic Operators
+    //and or
+    let pageNumber = 1, pageSize = 10;
+
     let courses = await Course
-    .find({isPublished:true}) 
-    //.find({price:{$gt:10,$lt:40}})
-    //.find({price:{$in:[10,20,30]}})
-    .sort({name:-1})//1 asc -1 desc
-    .select({name:1,author:1});//1 denoting true here
-    
+        //.find({isPublished:true}) 
+        .find({ author: /^siva/i })//Regex follows the js regex pattern 
+        //.find({price:{$gt:10,$lt:40}})
+        // .find({price:{$in:[10,20,30]}})
+        // .and([{$lt:10},{$gt:5}])
+        // .or([{$lt:10},{$gt:5}])
+        
+        //pagination
+        .skip((pageNumber-1)*pageSize)
+        .limit(pageSize)
+        .sort({ name: -1 })//1 asc -1 desc
+        .select({ name: 1, author: 1 });//1 denoting true here
+
     console.log(courses);
 
 }
