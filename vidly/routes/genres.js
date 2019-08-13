@@ -3,23 +3,14 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/vidly', { useNewUrlParser: true })
-  .then(() => console.log('Connected to the database..'))
-  .catch((err) => console.log('Unable to connect to the database..', err));
-
-const genreSchema = mongoose.Schema({
-
-  id: Number,
-  name: { type: String, required: true }
-});
-
-const Genre = mongoose.model('genre', genreSchema);
-
-const genres = [
-  { id: 1, name: 'Action' },
-  { id: 2, name: 'Horror' },
-  { id: 3, name: 'Romance' },
-];
+const Genre = mongoose.model('genre', mongoose.Schema({
+  name: { 
+    type: String, 
+    required: true ,
+    minlength:3,
+    maxlength:50
+  }
+}));
 
 router.get('/', async (req, res) => {
   let genres = await Genre.find().select('id name');
@@ -30,20 +21,18 @@ router.post('/', async (req, res) => {
   const { error } = validateGenre(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const genre = new Genre({
+  let genre = new Genre({
     $inc: { 'id': 1 },
     name: req.body.name
   });
-  let result;
   try {
-    result = await genre.save();
-
+    genre = await genre.save();
   }
   catch (err) {
-    result = err;
+    genre = err;
   }
 
-  res.send(result);
+  res.send(genre);
 });
 
 router.put('/:id', async (req, res) => {

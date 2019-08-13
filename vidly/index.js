@@ -2,6 +2,9 @@ const genres = require('./routes/genres');
 const express = require('express');
 const app = express();
 
+mongoose.connect('mongodb://localhost/vidly', { useNewUrlParser: true })
+  .then(() => console.log('Connected to the database..'))
+  .catch((err) => console.log('Unable to connect to the database..', err));
 
 app.use(express.json());
 app.use('/api/genres', genres);
