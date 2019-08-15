@@ -1,23 +1,6 @@
-const Joi = require('@hapi/joi');
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
-
-
-const Customer = mongoose.model('customers', {
-    isGold: Boolean,
-    name: {
-        type: String,
-        requires: true,
-        minlength: 3,
-        maxlength: 50
-
-    },
-    phone: {
-        type: String,
-        maxlength: 20
-    }
-});
+const { Customer, validate } = require('../models/customer');
 
 //GET
 router.get('/', async (req, res) => {
@@ -30,7 +13,7 @@ router.get('/', async (req, res) => {
 //POST
 router.post('/', async (req, res) => {
 
-    let { error } = validateCustomer(req.body);
+    let { error } = validate(req.body);
 
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -52,7 +35,7 @@ router.put('/:id', async (req, res) => {
     if (!req.params.id) return res.status(400).send('Id should not be empty');
 
     //    let { error: { details: [{ message }] }, error } = validateCustomer(req.body);
-    let { error } = validateCustomer(req.body);
+    let { error } = validate(req.body);
 
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -108,18 +91,5 @@ router.get('/:id', async (req, res) => {
     res.send(result);
 
 });
-
-
-function validateCustomer(customer) {
-
-    var schema = {
-        name: Joi.string().min(3).max(50).required(),
-        phone: Joi.string().max(20),
-        isGold: Joi.boolean()
-
-    };
-    return Joi.validate(customer, schema);
-};
-
 
 module.exports = router;
