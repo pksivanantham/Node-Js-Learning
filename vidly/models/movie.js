@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const joi = require('@hapi/joi');
 const {  genreMongooseSchema } = require('../models/genre');
 
-const Movie = mongoose.model('movie', mongoose.Schema({
+const Movie = mongoose.model('movie', new mongoose.Schema({
     title: {
         type: String,
         required: true,
@@ -13,7 +13,11 @@ const Movie = mongoose.model('movie', mongoose.Schema({
         required: true
     },
     numberInStock: Number,
-    dailyRentalRate: Number
+    dailyRentalRate:  {
+        type:Number,
+        required:true,
+        min:0
+    }
 
 }));
 

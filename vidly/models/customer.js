@@ -1,20 +1,23 @@
 const Joi = require('@hapi/joi');
 const mongoose = require('mongoose');
 
-const Customer = mongoose.model('customers', {
-    isGold: Boolean,
+const Customer = mongoose.model('customer', new mongoose.Schema({
     name: {
         type: String,
-        requires: true,
+        required: true,
         minlength: 3,
         maxlength: 50
 
+    },
+    isGold: {
+        type:Boolean,
+        default:false
     },
     phone: {
         type: String,
         maxlength: 20
     }
-});
+}));
 
 function validateCustomer(customer) {
 

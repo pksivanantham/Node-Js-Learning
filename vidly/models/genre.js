@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
 
-const genreMongooseSchema =mongoose.Schema({
+const genreMongooseSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
