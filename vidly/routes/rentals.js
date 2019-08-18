@@ -47,7 +47,11 @@ router.post('/', async (req, res) => {
 
   try {
 
-    await new Fawn.Task()//It uses the two phase commit transaction in mongodb
+    //It uses the two phase commit transaction in mongodb
+    //It uses the GRIDFS storage in mongodb.
+    //it will create seperate table to store these transaction records and will delete once its completed
+
+    await new Fawn.Task()
       .save('rentals', rental)
       .update('movies', { _id: movie._id }, {
         $inc: { 'numberInStock': -1 }
