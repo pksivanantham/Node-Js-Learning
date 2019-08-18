@@ -1,11 +1,14 @@
+const Joi = require('@hapi/joi');
 const genres = require('./routes/genres');
 const customers = require('./routes/customers');
 const movies = require('./routes/movies');
 const rentals = require('./routes/rentals');
-const express = require('express');
-const app = express();
 const mongoose = require('mongoose');
 const morgan = require('morgan');
+const express = require('express');
+const app = express();
+
+Joi.objectId = require('joi-objectid')(Joi);
 
 mongoose.connect('mongodb://localhost/vidly', { useNewUrlParser: true })
   .then(() => console.log('Connected to the database..'))
