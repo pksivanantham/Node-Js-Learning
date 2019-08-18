@@ -1,24 +1,26 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
 
-const Genre = mongoose.model('genre', mongoose.Schema({
+const genreMongooseSchema =mongoose.Schema({
     name: {
         type: String,
         required: true,
         minlength: 3,
         maxlength: 50
     }
-}));
+})
+const Genre = mongoose.model('genre',genreMongooseSchema );
+
 
 function validateGenre(genre) {
-    const schema = {
+    const genreJoiSchema = {
         name: Joi.string().min(3).required()
     };
-
-    return Joi.validate(genre, schema);
+    return Joi.validate(genre, genreJoiSchema);
 }
 
 module.exports = {
     Genre,
-    validate: validateGenre
+    validate: validateGenre,
+    genreMongooseSchema
 }
