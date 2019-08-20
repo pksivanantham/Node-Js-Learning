@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
 
-const User = new mongoose.Schema({
+const User = mongoose.model('user', new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -25,7 +25,7 @@ const User = new mongoose.Schema({
 
     }
 
-});
+}));
 
 function ValidateUser(user) {
 
