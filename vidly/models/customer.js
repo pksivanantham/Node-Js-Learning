@@ -31,7 +31,6 @@ function validateCustomer(customer) {
 };
 
 module.exports = {
-
     Customer,
     validate: validateCustomer
 };
