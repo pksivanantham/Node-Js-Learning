@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const Joi = require('@hapi/joi');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 
-const User = mongoose.model('user', new mongoose.Schema({
+let schema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -25,7 +27,18 @@ const User = mongoose.model('user', new mongoose.Schema({
 
     }
 
-}));
+});
+
+schema.methods.generateToken = function () {
+
+    return jwt.sign({
+        name: this.name,
+        email: this.email
+    }, config.get('jwtPrivateKey'));
+
+};
+
+const User = mongoose.model('user', schema);
 
 function ValidateUser(user) {
 

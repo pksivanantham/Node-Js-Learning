@@ -19,15 +19,18 @@ router.post('/', async (req, res) => {
     try {
 
         let salt = await bcrypt.genSalt(saltRounds);
+        
         let passwordHash = await bcrypt.hash(user.password, salt);
 
         user.password = passwordHash;
 
         await user.save();
 
-        res.send(_.pick(user, ['_id', 'name', 'email']));
+        res.header('x-vidly-jwt',user.generateToken()).send(_.pick(user, ['_id', 'name', 'email']));        
+
     }
     catch (ex) {
+        console.log(ex);
         res.status(500).send('Error occured in server');
     }
 });
