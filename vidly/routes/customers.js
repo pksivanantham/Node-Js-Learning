@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { Customer, validate } = require('../models/customer');
+const auth = require('../middleware/auth');
+const admin = require('../middleware/admin');
 
 //GET
 router.get('/', async (req, res) => {
@@ -30,7 +32,7 @@ router.post('/', async (req, res) => {
 });
 
 //PUT
-router.put('/:id', async (req, res) => {
+router.put('/:id',auth, async (req, res) => {
 
     if (!req.params.id) return res.status(400).send('Id should not be empty');
 
@@ -66,7 +68,7 @@ router.put('/:id', async (req, res) => {
 
 //DELETE
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id',[auth,admin], async (req, res) => {
 
     if (!req.params.id) return res.status(400).send('Id should not be empty');
 

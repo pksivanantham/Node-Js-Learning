@@ -25,6 +25,10 @@ let schema = new mongoose.Schema({
         maxlength: 1024,
         unique: true,
 
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
     }
 
 });
@@ -32,8 +36,8 @@ let schema = new mongoose.Schema({
 schema.methods.generateToken = function () {
 
     return jwt.sign({
-        name: this.name,
-        email: this.email
+        _id: this._id,
+        isAdmin: this.isAdmin
     }, config.get('jwtPrivateKey'));
 
 };

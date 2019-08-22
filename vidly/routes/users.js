@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth');
 const { User, validate } = require('../models/user');
 const _ = require('lodash');
 const express = require('express');
@@ -5,6 +6,12 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+router.get('/me', auth, async (req,res) => {
+
+    let user = await User.findById(req.user._id).select('-password');
+
+    res.send(user);
+});
 
 router.post('/', async (req, res) => {
 
@@ -19,14 +26,14 @@ router.post('/', async (req, res) => {
     try {
 
         let salt = await bcrypt.genSalt(saltRounds);
-        
+
         let passwordHash = await bcrypt.hash(user.password, salt);
 
         user.password = passwordHash;
 
         await user.save();
 
-        res.header('x-vidly-jwt',user.generateToken()).send(_.pick(user, ['_id', 'name', 'email']));        
+        res.header('x-vidly-jwt', user.generateToken()).send(_.pick(user, ['_id', 'name', 'email']));
 
     }
     catch (ex) {

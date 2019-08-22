@@ -4,7 +4,7 @@ const config = require('config');
 module.exports = function (req, res, next) {
 
     let authToken = req.header('x-vidly-jwt');
-    if (!authToken) return res.status(401).send('Access denied.');
+    if (!authToken) return res.status(401).send('Access denied.Token is missing');
 
     try {
 
