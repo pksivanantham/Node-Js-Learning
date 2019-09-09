@@ -1,3 +1,4 @@
+require('express-async-errors');
 const error = require('./middleware/error');
 const Joi = require('@hapi/joi');
 const genres = require('./routes/genres');
@@ -33,9 +34,7 @@ app.use('/api/rentals',rentals);
 app.use('/api/users',users);
 app.use('/api/auth',auth);
 app.use(error);
-// app.use(function(err,req,res,next){
 
-// })
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
