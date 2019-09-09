@@ -1,3 +1,4 @@
+const error = require('./middleware/error');
 const Joi = require('@hapi/joi');
 const genres = require('./routes/genres');
 const customers = require('./routes/customers');
@@ -31,7 +32,10 @@ app.use('/api/movies',movies);
 app.use('/api/rentals',rentals);
 app.use('/api/users',users);
 app.use('/api/auth',auth);
+app.use(error);
+// app.use(function(err,req,res,next){
 
+// })
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
