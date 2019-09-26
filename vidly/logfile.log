@@ -1,9 +1,0 @@
-{"level":"error","message":"error"}
-{"level":"error","message":"Hey i am not available"}
-{"level":"error","message":"Hey i am not available"}
-{"0":{},"level":"error","message":"Hey i am not available"}
-{
-  level: 'error',
-  message: 'Hey i am not available',
-  timestamp: '2019-09-26T19:03:30.648Z'
-}
