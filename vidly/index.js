@@ -7,7 +7,10 @@ require('./startup/logging')();
 require('./startup/config')();
 require('./startup/validation')();
 
+const logger = require('./utils/consoleLogger');
+
+
 app.use(morgan('dev'));//Added for logging network requests
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listening on port ${port}...`));
+app.listen(port, () => logger.log('silly',`Listening on port ${port}...`));
