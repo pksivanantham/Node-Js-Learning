@@ -14,8 +14,10 @@ module.exports = function(){
         logger.log('error','Critical Error',err);
       });
       
+      //Unhandles promise rejection will be handled here
       process.on('unhandledRejection',(ex)=>{
         logger.log('error','Unhandled rejection',ex);
         throw ex;
       });
+
 };

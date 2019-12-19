@@ -1,12 +1,12 @@
-const winston = require('./node_modules/winston');
-const { format: { combine } } = winston;
+const winston = require('winston');
+const { format: { combine,colorize,simple } } = winston;
 
 module.exports = winston.createLogger({
     transports: [
         new winston.transports.Console({
             format: combine(
-                winston.format.colorize({ all: true }),
-                winston.format.simple()
+                colorize({ all: true }),
+                simple()
             )
         }),
     ]
