@@ -1,5 +1,5 @@
 const lib = require('../lib')
-
+const db = require('../db');
 describe('absolute', () => {
 
     it('should return positive number if input is positive', () => {
@@ -85,6 +85,26 @@ describe('registerUser',()=>{
         let result = lib.registerUser('Siva');
         expect(result).toMatchObject({username:'Siva'});
         expect(result.id).toBeGreaterThan(0);
+    })
+});
+
+describe('applyDiscount',()=>{
+
+    it('should return 10% discount if customer has more than 10 points',()=>{
+
+        //Mock with monkey patching
+
+        db.getCustomerSync = (id)=>{
+
+            console.log('Reading a customer from Mock function...');
+            return { id: id, points: 50 };
+        };
+        let order = {customerId:1,totalPrice:100};
+
+        lib.applyDiscount(order);
+
+        expect(order.totalPrice).toBe(90);
+
     })
 });
 

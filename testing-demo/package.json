@@ -12,7 +12,7 @@
     "jest": "^24.9.0"
   },
   "scripts": {
-    "test": "jest excercise1.test.js --watchAll"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
