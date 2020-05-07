@@ -5,7 +5,7 @@ const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 
 router.get('/', async (req, res, next) => {
-  throw new Error('Hey i am not available');
+ // throw new Error('Hey i am not available');
   let genres = await Genre.find().select('id name');
   res.send(genres);
 });

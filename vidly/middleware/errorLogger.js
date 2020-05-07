@@ -1,6 +1,6 @@
 const winston = require('winston');
 const { format : {combine, timestamp, prettyPrint }} = winston;
-require("winston-mongodb")
+//require("winston-mongodb")
 const logger = winston.createLogger({
     level: 'error',
     format: combine(winston.format.json(),
@@ -18,6 +18,6 @@ logger.add(new winston.transports.Console({
     )
 }));
 
-logger.add(new winston.transports.MongoDB({db:'mongodb://localhost/vidly'}))
+//logger.add(new winston.transports.MongoDB({db:'mongodb://localhost/vidly'}))
 
 module.exports = logger;
