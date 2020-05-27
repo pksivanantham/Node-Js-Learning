@@ -24,4 +24,21 @@ describe('/api/genres',()=>{
         });
     })
 
+    describe('GET /:Id',()=>{
+        it('should return the genre if valid id passed',async ()=>{
+            // let insResult = await Genre.collection.insertMany([
+            //     { name: 'Genre1' }
+            // ]);
+            // let req = await request(server).get(`/api/genres/${insResult.insertedIds['0']}`);
+            let genre = new Genre({name:'Genre1'});
+            await genre.save();
+            let req = await request(server).get(`/api/genres/${genre._id}`);
+            expect(req.status).toBe(200);
+            expect(req.body).toHaveProperty('name',genre.name);
+        });
+        it('should return the 404 status  if invalid valid genre id  is passed', async () => {
+            let req = await request(server).get(`/api/genres/1234`);
+            expect(req.status).toBe(404);
+        });
+    });
 });
