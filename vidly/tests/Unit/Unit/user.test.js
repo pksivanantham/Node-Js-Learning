@@ -1,6 +1,6 @@
-const {User} = require('../../models/user')
-const jwt = require('jsonwebtoken');
-const config = require('config');
+const {User} = require('../../../models/user')
+const jwt = require('./node_modules/jsonwebtoken');
+const config = require('./node_modules/config');
 const mongoose = require('mongoose');
  
 describe('user.generateToken',()=>{

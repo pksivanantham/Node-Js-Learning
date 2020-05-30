@@ -1,6 +1,7 @@
 const request = require('supertest')
 const { Genre } = require('../../models/genre')
 const { User } = require('../../models/user')
+const mongoose = require('mongoose');
 let server;
 describe('/api/genres', () => {
 
@@ -10,6 +11,7 @@ describe('/api/genres', () => {
     afterEach(async () => {
         server.close();
         await Genre.collection.deleteMany({});
+        
     })
     describe('GET /', () => {
         it('should return all the genres', async () => {
@@ -36,6 +38,12 @@ describe('/api/genres', () => {
             let req = await request(server).get(`/api/genres/${genre._id}`);
             expect(req.status).toBe(200);
             expect(req.body).toHaveProperty('name', genre.name);
+        });
+        it('should return the 404 status if genre is not found for the given id', async () => {
+        
+            let id = mongoose.Types.ObjectId();
+            let req = await request(server).get(`/api/genres/${id}`);
+            expect(req.status).toBe(404);
         });
         it('should return the 404 status  if invalid valid genre id  is passed', async () => {
             let req = await request(server).get(`/api/genres/1234`);
