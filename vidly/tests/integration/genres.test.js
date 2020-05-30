@@ -9,7 +9,7 @@ describe('/api/genres', () => {
     })
     afterEach(async () => {
         server.close();
-        await Genre.collection.remove({});
+        await Genre.collection.deleteMany({});
     })
     describe('GET /', () => {
         it('should return all the genres', async () => {
