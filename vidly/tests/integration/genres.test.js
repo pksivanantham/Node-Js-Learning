@@ -112,25 +112,24 @@ describe('/api/genres', () => {
 
     });
     describe('PUT ', () => {
-      let token;
+        let token;
         let name;
         let _id;
-
 
         beforeEach(() => {
             token = new User().generateToken();
             name = 'Thriller';
-        })
+        });
 
-     let postGenre = async () => {
-         
+        let postGenre = async () => {
+
             return await request(server)
                 .put(`/api/genres/${_id}`)
                 .set('x-vidly-jwt', token)
                 .send({ name });
 
         };
-        let createGenre = async ()=>{
+        let createGenre = async () => {
 
             return await request(server)
                 .post(`/api/genres`)
@@ -139,7 +138,6 @@ describe('/api/genres', () => {
         };
 
         it('should update genre if valid input passed', async () => {
-
             let res = await createGenre();
 
             expect(res.status).toBe(200);
@@ -150,117 +148,103 @@ describe('/api/genres', () => {
             expect(res.status).toBe(200);
             expect(res.body).toHaveProperty('name', name);
 
-
         });
 
         it('should return 400 status if invalid input passed', async () => {
 
             _id = mongoose.Types.ObjectId().toHexString();
-            name ='12';
+            name = '12';
             res = await postGenre();
             expect(res.status).toBe(400);
-
-
         });
 
         it('should return 404 status if invalid genre id is passed', async () => {
 
-            
             _id = mongoose.Types.ObjectId().toHexString();
 
             res = await postGenre();
 
             expect(res.status).toBe(404);
-
-
         });
-
 
     });
 
     describe('DELETE ', () => {
         let token;
-          let _id;
-  
-  
-          beforeEach(() => {
+        let _id;
+        beforeEach(() => {
             const user = {
-                _id :mongoose.Types.ObjectId().toHexString(),
-                isAdmin:true
+                _id: mongoose.Types.ObjectId().toHexString(),
+                isAdmin: true
             }
-    
-             token = new User(user).generateToken();
-    
-          })
-  
+
+            token = new User(user).generateToken();
+
+        })
+
         let deleteGenre = async () => {
-  
-        
-              return await request(server)
-                  .delete(`/api/genres/${_id}`)
-                  .set('x-vidly-jwt', token);
-  
-          };
-          let createGenre = async ()=>{
-  
-              return await request(server)
-                  .post(`/api/genres`)
-                  .set('x-vidly-jwt', token)
-                  .send({ name: 'Genre1' });
-          };
-  
-          it('should delete genre if valid genre id passed', async () => {
-  
-              let res = await createGenre();
-  
-              expect(res.status).toBe(200);
-  
-              _id = res.body._id;
 
-              res = await deleteGenre();
-  
-              expect(res.status).toBe(200);
 
-             let genre = await Genre.findById({_id})
+            return await request(server)
+                .delete(`/api/genres/${_id}`)
+                .set('x-vidly-jwt', token);
 
-             expect(genre).toBeNull();
-  
-          });
-  
-          it('should return 403 status if the user is not admin', async () => {
-  
+        };
+        let createGenre = async () => {
+
+            return await request(server)
+                .post(`/api/genres`)
+                .set('x-vidly-jwt', token)
+                .send({ name: 'Genre1' });
+        };
+
+        it('should delete genre if valid genre id passed', async () => {
+
+            let res = await createGenre();
+
+            expect(res.status).toBe(200);
+
+            _id = res.body._id;
+
+            res = await deleteGenre();
+
+            expect(res.status).toBe(200);
+
+            let genre = await Genre.findById({ _id })
+
+            expect(genre).toBeNull();
+
+        });
+
+        it('should return 403 status if the user is not admin', async () => {
             token = new User().generateToken();
 
             res = await deleteGenre();
             expect(res.status).toBe(403);
-//            console.log(res.text)
-
+            //            console.log(res.text)
 
         });
 
-          it('should return 404 status if invalid input passed', async () => {
-  
-              _id = 'ID';
+        it('should return 404 status if invalid input passed', async () => {
 
-              res = await deleteGenre();
-              expect(res.status).toBe(404);
-  
-  
-          });
-  
-          it('should return 404 status if invalid genre id is passed', async () => {
-  
-              
-              _id = mongoose.Types.ObjectId().toHexString();
-  
-              res = await deleteGenre();
-  
-              expect(res.status).toBe(404);
-  
-  
-          });
-  
-  
-      });
+            _id = 'ID';
+
+            res = await deleteGenre();
+            expect(res.status).toBe(404);
+
+        });
+
+        it('should return 404 status if invalid genre id is passed', async () => {
+
+            _id = mongoose.Types.ObjectId().toHexString();
+
+            res = await deleteGenre();
+
+            expect(res.status).toBe(404);
+
+        });
+
+
+    });
 
 });
